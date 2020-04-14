@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  web:
+    depends_on: []
+    image: php:7.2.2-apache
+    environment: 
+      - REDIS=redis:6379 
+    volumes:
+      - ./:/var/www/html/
+    ports:
+      - "8888:80"
