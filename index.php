@@ -68,14 +68,16 @@ if (!is_null($policy_id) && array_key_exists($policy_id, $policies)) {
     </head>
     <body>
         <div class="container">
-            <h1>Referrer-Policy</h1>
-            <p>
-                When you click on links on a site, the browser can leak information about
-                the page referrer to the site it goes to. This can be problematic on 
-                pages that have secret tokens such as password resets we don't want shared. 
-                To control what information can be shared, you can leverage <strong>Referrer-Policy</strong>.
-                <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy">MDN - Referrer-Policy</a>
-            </p>
+            <section id="summary">
+                <h1>Referrer-Policy</h1>
+                <p>
+                    When you click on links on a site, the browser can leak information about
+                    the page referrer to the site it goes to. This can be problematic on 
+                    pages that have secret tokens such as password resets we don't want shared. 
+                    To control what information can be shared, you can leverage <strong>Referrer-Policy</strong>.
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy">MDN - Referrer-Policy</a>
+                </p>
+            </section>
             <form method="GET">
                 <select name="p">
                     <option></option>
@@ -86,9 +88,9 @@ if (!is_null($policy_id) && array_key_exists($policy_id, $policies)) {
                     <?php endforeach; ?>
                 </select>
                 <input type="hidden" name="h" value="<?php echo md5(rand()); ?>">
-                <button>Update</button>
-
+                <button>Change</button>
             </form>
+            <section id="http-header">
             <h3>Using header</h3>
             <p> You can set the <code>Referrer-Policy: *</code> header to control at a page level.</p>
             <?php if (!is_null($policy)): ?>
@@ -106,50 +108,53 @@ if (!is_null($policy_id) && array_key_exists($policy_id, $policies)) {
                     <?php endforeach; ?>
                 <?php endforeach; ?>
             </ul>
+            </section>
             <hr />
-            <h3>Using html attribute</h3>
-            <p>On links you can add <code>referrerpolicy</code> to control the referrer at a link level</p>
-            <table class="table" cellspacing="0">
-                <tr>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Try</th>
-                </tr>
-            <?php foreach($policies as $idx => $policy): ?>
-                <tr>
-                    <td>
-                        <?php if ($idx === $policy_id): ?>
-                                *
-                        <?php else: ?>
-                            <a href="index.php?p=<?php echo $idx; ?>">
-                                +
-                                </a>
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <strong><?php echo  $policy['value']; ?>
-                    </td>
-                    <td>
-                        <p class="description">
-                            <?php echo $policy['description'] ?? ''; ?>
-                        </p>
-                    </td>
-                    <td>
-                        <ul>
-                            <?php foreach($domains as $key => $domain): ?>
-                                <?php foreach($protocols  as $prot): ?>
-                                    <li>
-                                        <a href="<?php echo "{$prot}://{$domain}{$port}"; ?>/page.php?p=<?php echo $idx; ?>" referrerpolicy="<?php echo $policy['value']; ?>">
-                                            Url = <?php echo "{$prot}://{$domain}{$port}"; ?>
-                                        </a>
-                                    </li>
+            <section id="html-attribute">
+                <h3>Using html attribute</h3>
+                <p>On links you can add <code>referrerpolicy</code> to control the referrer at a link level</p>
+                <table class="table" cellspacing="0">
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Try</th>
+                    </tr>
+                <?php foreach($policies as $idx => $policy): ?>
+                    <tr>
+                        <td>
+                            <?php if ($idx === $policy_id): ?>
+                                    *
+                            <?php else: ?>
+                                <a href="index.php?p=<?php echo $idx; ?>">
+                                    +
+                                    </a>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <strong><?php echo  $policy['value']; ?>
+                        </td>
+                        <td>
+                            <p class="description">
+                                <?php echo $policy['description'] ?? ''; ?>
+                            </p>
+                        </td>
+                        <td>
+                            <ul>
+                                <?php foreach($domains as $key => $domain): ?>
+                                    <?php foreach($protocols  as $prot): ?>
+                                        <li>
+                                            <a href="<?php echo "{$prot}://{$domain}{$port}"; ?>/page.php?p=<?php echo $idx; ?>" referrerpolicy="<?php echo $policy['value']; ?>">
+                                                Url = <?php echo "{$prot}://{$domain}{$port}"; ?>
+                                            </a>
+                                        </li>
+                                    <?php endforeach; ?>
                                 <?php endforeach; ?>
-                            <?php endforeach; ?>
-                        </ul>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </table>
+                            </ul>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </section>
     </div>
 </body>
