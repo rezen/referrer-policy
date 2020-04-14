@@ -47,6 +47,7 @@ $policies = [
 ];
 
 $domains = [
+  "origin"    => "localhost",
   "other"     => "local.refer",
   "subdomain" => "dev.localhost",
 ];
